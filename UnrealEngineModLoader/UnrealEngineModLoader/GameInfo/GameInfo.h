@@ -34,6 +34,15 @@ struct Offsets {
 	} Property;
 };
 
+class DmgConfig {
+public:
+
+	static DmgConfig Instance;
+
+	bool isDX12 = false;
+	bool SkipCallFunctionByNameWithArguments = false;
+};
+
 class LOADER_API GameProfile
 {
 public:

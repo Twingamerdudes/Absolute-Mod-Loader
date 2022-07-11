@@ -13,6 +13,7 @@ bool GameStateClassInitNotRan = true;
 
 namespace Hooks
 {
+
 	namespace HookedFunctions
 	{
 		struct PrintStringParams
@@ -24,6 +25,8 @@ namespace Hooks
 		{
 			UE4::FString ModName;
 		};
+
+		
 
 		PVOID(*origProcessFunction)(UE4::UObject*, UE4::FFrame*, void* const);
 		PVOID hookProcessFunction(UE4::UObject* obj, UE4::FFrame* Frame, void* const Result)
@@ -67,10 +70,14 @@ namespace Hooks
 
 		}
 
+
+		static bool PreBegin_AlreadyLoaded = false;
+
 		PVOID(*origInitGameState)(void*);
 		PVOID hookInitGameState(void* Ret)
 		{
 			Log::Info("GameStateHook");
+			PreBegin_AlreadyLoaded = false;
 			if (GameStateClassInitNotRan)
 			{
 				UE4::InitSDK();
@@ -111,7 +118,9 @@ namespace Hooks
 				{
 					if (CurrentModActor->IsA(UE4::AActor::StaticClass()))
 					{
-						CurrentModActor->CallFunctionByNameWithArguments(L"ModCleanUp", nullptr, NULL, true);
+						if (!DmgConfig::Instance.SkipCallFunctionByNameWithArguments) {
+							CurrentModActor->CallFunctionByNameWithArguments(L"ModCleanUp", nullptr, NULL, true);
+						}
 					}
 				}
 				
@@ -215,7 +224,10 @@ namespace Hooks
 											}
 										}
 									}
-									ModActor->CallFunctionByNameWithArguments(L"PreBeginPlay", nullptr, NULL, true);
+									// UE4.26 FIX: duplicated ModActor(PostBeginPlay called twice) on ToggleDebugCamera
+									if (!DmgConfig::Instance.SkipCallFunctionByNameWithArguments) {
+										ModActor->CallFunctionByNameWithArguments(L"PreBeginPlay", nullptr, NULL, true);
+									}
 									Log::Info("Sucessfully Loaded %s", str.c_str());
 								}
 							}
@@ -258,16 +270,25 @@ namespace Hooks
 									}
 								}
 							}
-							CurrentModActor->CallFunctionByNameWithArguments(L"PostBeginPlay", nullptr, NULL, true);
-							Global::GetGlobals()->eventSystem.dispatchEvent("PostBeginPlay", Global::GetGlobals()->ModInfoList[i].ModName, CurrentModActor);
+							// UE4.26 FIX: duplicated ModActor(PostBeginPlay called twice) on ToggleDebugCamera
+							if (!PreBegin_AlreadyLoaded) {
+								if (!DmgConfig::Instance.SkipCallFunctionByNameWithArguments) {
+									CurrentModActor->CallFunctionByNameWithArguments(L"PostBeginPlay", nullptr, NULL, true);
+								}
+								Global::GetGlobals()->eventSystem.dispatchEvent("PostBeginPlay", Global::GetGlobals()->ModInfoList[i].ModName, CurrentModActor);
+							}
 						}
 					}
+					PreBegin_AlreadyLoaded = true;
+					Global::GetGlobals()->eventSystem.dispatchEvent("BeginPlay", Actor);
 				}
-				Global::GetGlobals()->eventSystem.dispatchEvent("BeginPlay", Actor);
+				//Global::GetGlobals()->eventSystem.dispatchEvent("BeginPlay", Actor);
 			}
 			return origBeginPlay(Actor);
 		}
 	};
+
+
 
 	DWORD __stdcall InitHooks(LPVOID)
 	{

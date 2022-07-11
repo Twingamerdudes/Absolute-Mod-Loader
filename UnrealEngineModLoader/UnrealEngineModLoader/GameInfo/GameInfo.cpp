@@ -9,6 +9,7 @@
 #include "../Hooks.h"
 #include "../UE4/Ue4.hpp"
 GameProfile GameProfile::SelectedGameProfile;
+DmgConfig DmgConfig::Instance;
 
 DWORD StringToDWord(std::string str)
 {
@@ -28,6 +29,7 @@ std::string GetModuleFilePath(HMODULE hModule)
 
 	return ModuleName;
 }
+
 
 void SetupProfile(std::string Path)
 {
@@ -52,8 +54,15 @@ void SetupProfile(std::string Path)
 		FreeConsole();
 		AllocConsole();
 		freopen("CON", "w", LOG_STREAM);
-		Log::Info("Created by ~Russell.J Release V %s", MODLOADER_VERSION);
+		Log::Info("Created by ~Russell.J Release V %sa", MODLOADER_VERSION);
+		Log::Dmg("Modified by DmgVol");
 	}
+
+	if (LoaderInfo.getAs<int>("DEBUG", "DX12", 0) == 1) {
+		Log::Dmg("DX12 Version (No-ImGUI)");
+		DmgConfig::Instance.isDX12 = true;
+	}
+
 	if (std::filesystem::exists(Profile))
 	{
 		GameProfile::SelectedGameProfile.ProfileName = gamename;
@@ -68,6 +77,8 @@ void SetupProfile(std::string Path)
 		GameProfile::SelectedGameProfile.IsUsing4_22 = GameInfo.getAs<int>("GameInfo", "IsUsing4_22", 0);
 		GameProfile::SelectedGameProfile.bIsDefaultObjectArrayed = GameInfo.getAs<int>("GameInfo", "IsDefaultObjectArrayed", 0);
 		GameProfile::SelectedGameProfile.bDelayGUISpawn = GameInfo.getAs<int>("GameInfo", "DelayGUISpawn", 0);
+		DmgConfig::Instance.SkipCallFunctionByNameWithArguments = GameInfo.getAs<int>("GameInfo", "SkipCallFunctionByNameWithArguments", 0) == 1;
+		
 
 		if (GameInfo.get("GameInfo", "BeginPlayOverwrite", "") != "")
 		{
@@ -325,7 +336,13 @@ void SetupProfile(std::string Path)
 				}
 				else
 				{
-					Log::Error("CallFunctionByNameWithArguments NOT FOUND!");
+					if (!DmgConfig::Instance.SkipCallFunctionByNameWithArguments) {
+						Log::Error("CallFunctionByNameWithArguments NOT FOUND!");
+					}
+					else {
+						Log::Dmg("CallFunctionByNameWithArguments SKIPPED!");
+					}
+
 				}
 			}
 			Log::Info("CallFunctionByNameWithArguments: 0x%p", (void*)GameProfile::SelectedGameProfile.CallFunctionByNameWithArguments);
