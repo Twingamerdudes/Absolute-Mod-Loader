@@ -2,9 +2,10 @@
 A tool used to load Blueprint and basic SDK based C++ Mods for Unreal Engine 4 games.</br>
 
 
-Download Link: [UnrealModLoader_v2.2.0a.zip](https://github.com/Dmgvol/UnrealModLoader/releases/download/v2.2.0/UnrealModLoader.V2.2.0a.zip)
+Download Link: [UnrealModLoader_v2.2.1a.zip](https://github.com/Dmgvol/UnrealModLoader/releases/download/v2.2.1/UnrealModLoader.V2.2.1a.zip)
 
-# Forked version changes: (v2.2.0a)
+# Forked version changes: (v2.2.1a)
+* v2.2.1a: Synced with Russell's main branch features and a few new profile files.|
 * DX12 Support (toggled in `ModLoaderInfo.ini`).
 * Skippable "CallFunctionByNameWithArguments" for specific games.
 *  * by adding `SkipCallFunctionByNameWithArguments=1` into game profile file, under GameInfo section.
