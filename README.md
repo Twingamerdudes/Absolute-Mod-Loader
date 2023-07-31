@@ -1,9 +1,11 @@
-# Unreal Engine Mod Loader
+![AbsoluteModLoader](https://github.com/Twingamerdudes/Absolute-Mod-Loader/assets/81382687/49012058-1415-4327-b36b-c77ead88c5cc)
+
+Absolute Mod Loader
 A tool used to load Blueprint and basic SDK based C++ Mods for Unreal Engine 4 games.</br>
+It's based on a Fork of UML created by DmgVol.
 
 
 Download Link: [UnrealModLoader_v2.2.1a.zip](https://github.com/Dmgvol/UnrealModLoader/releases/download/v2.2.1/UnrealModLoader.V2.2.1a.zip)
-
 # Forked version changes: (v2.2.1a)
 * v2.2.1a: Synced with Russell's main branch features and a few new profile files.
 * DX12 Support (toggled in `ModLoaderInfo.ini`).
@@ -17,7 +19,8 @@ theory of liability, whether in contract, strict liability, or tort (including n
 
 # Credits
 Forked from [UnrealModLoader](https://github.com/RussellJerome/UnrealModLoader), created by [RussellJerome](https://github.com/RussellJerome/). </br>
-Modified by [DmgVol](https://github.com/DmgVol/) with some bug fixes and subtle quality-of-life features.
+Also forked from [Dmg UnrealModLoader](https://github.com/Dmgvol/UnrealModLoader), created by [DmgVol](https://github.com/DmgVol/)
+Modified by [Twingamerdudes](https://github.com/Twingamerdudes/) with some cool features.
 
 # Discord
 If you have any problems, or just want to provide feedback click [here](https://discord.gg/xmXUSNvypY).
