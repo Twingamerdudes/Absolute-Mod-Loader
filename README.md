@@ -4,14 +4,8 @@ Absolute Mod Loader
 A tool used to load Blueprint and basic SDK based C++ Mods for Unreal Engine 4 games.</br>
 It's based on a Fork of UML created by DmgVol.
 
-
-Download Link: [UnrealModLoader_v2.2.1a.zip](https://github.com/Dmgvol/UnrealModLoader/releases/download/v2.2.1/UnrealModLoader.V2.2.1a.zip)
-# Forked version changes: (v2.2.1a)
-* v2.2.1a: Synced with Russell's main branch features and a few new profile files.
-* DX12 Support (toggled in `ModLoaderInfo.ini`).
-* Skippable "CallFunctionByNameWithArguments" for specific games.
-*  * by adding `SkipCallFunctionByNameWithArguments=1` into game profile file, under GameInfo section.
-* Fixed: UE4.26 duplicated PreBeginPlay call on ToggleDebugCamera _(happens in GR, SW3)_
+# Changes for 1.0.0
+Added the RunSystemCommand hook that allows you to run system commands.
 
 # DISCLAIMER
 This software is provided by the author "as is". In no event shall the author be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any 
