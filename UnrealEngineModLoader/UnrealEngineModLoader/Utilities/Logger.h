@@ -17,7 +17,8 @@ private:
 		WARNING_MSG = 1,
 		ERROR_MSG = 2,
 		INFO_PRINTCONSOLE = 3,
-		DMG = 4
+		DMG = 4,
+		AML = 5
 	};
 
 	template <typename ...Args>
@@ -52,6 +53,10 @@ private:
 		case DMG:
 			SetConsoleTextAttribute(hConsole, 11);
 			fprintf(LOG_STREAM, "DMG");
+			break;
+		case AML:
+			SetConsoleTextAttribute(hConsole, 15);
+			fprintf(LOG_STREAM, "AML");
 			break;
 		}
 
@@ -94,6 +99,12 @@ public:
 	static void Dmg(const std::string& format, Args&& ...args)
 	{
 		LogMsg(DMG, format, std::forward<Args>(args)...);
+	}
+
+	template <typename ...Args>
+	static void Absolute(const std::string& format, Args&& ...args)
+	{
+		LogMsg(AML, format, std::forward<Args>(args)...);
 	}
 
 	static void SetupErrorMessage(std::string Message) 

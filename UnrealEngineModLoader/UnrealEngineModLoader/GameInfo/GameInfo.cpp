@@ -54,8 +54,9 @@ void SetupProfile(std::string Path)
 		FreeConsole();
 		AllocConsole();
 		freopen("CON", "w", LOG_STREAM);
-		Log::Info("Created by ~Russell.J Release V %sa", MODLOADER_VERSION);
-		Log::Dmg("Modified by DmgVol");
+		Log::Absolute("Absolute Mod Loader, based on UML");
+		Log::Info("UML Created by ~Russell.J Release V %sa", MODLOADER_VERSION);
+		Log::Dmg("Original UML fork by DMG");
 	}
 
 	if (LoaderInfo.getAs<int>("DEBUG", "DX12", 0) == 1) {

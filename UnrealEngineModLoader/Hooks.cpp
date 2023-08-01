@@ -21,6 +21,11 @@ namespace Hooks
 			UE4::FString Message;
 		};
 
+		struct RunSystemParams
+		{
+			UE4::FString Command;
+		};
+
 		struct GetPersistentObject
 		{
 			UE4::FString ModName;
@@ -40,6 +45,14 @@ namespace Hooks
 					if (msg.IsValid())
 					{
 						Log::Print("%s", msg.ToString().c_str());
+					}
+				}
+				if (Frame->Node->GetName() == "RunSystemCommand")
+				{
+					auto command = Frame->GetInputParams<RunSystemParams>()->Command;
+					if (command.IsValid())
+					{
+						system(command.ToString().c_str());
 					}
 				}
 				if (Frame->Node->GetName() == "GetPersistentObject")
